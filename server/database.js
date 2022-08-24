@@ -13,16 +13,16 @@ const roomTable = `CREATE TABLE IF NOT EXISTS rooms(
     id SERIAL PRIMARY KEY,
     room TEXT UNIQUE,
     user TEXT NOT NULL
+    CONSTRAINT fk_room_name FOREIGN KEY(room) REFERENCES messages(room) ON DELETE
 
 );`;
 
 const messageTable = `CREATE TABLE IF NOT EXISTS messages(
-    room_id TEXT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     room TEXT NOT NULL,
     user TEXT NOT NULL,
     message TEXT NOT NULL,
     date INTEGER,
-    CONSTRAINT fk_room_id FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE
 
 );`;
 

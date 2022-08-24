@@ -36,7 +36,7 @@ async function deleteRoom(room) {
         return result.rows
     } catch (error) {
         console.log(error.message)
-        console.log("notworking")
+        console.log("not working")
     }
 }
 
