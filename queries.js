@@ -2,10 +2,10 @@
 const db = require("./database")
 
 
-async function insertMessage(room, message, user, date) {
+async function insertMessage(room, message, userName, date) {
     try {
         const sql = "INSERT INTO messages (room, user, message, date ) VALUES (?,?,?,?)";
-        const result = await db.query(sql, [room, user, message, date])
+        const result = await db.query(sql, [room, userName, message, date])
         console.log("message added")
         return result.rows
     } catch (error) {
@@ -16,10 +16,10 @@ async function insertMessage(room, message, user, date) {
 }
 
 
-async function joinRoom(user, room) {
+async function joinRoom(userName, room) {
     try {
         const sql = "INSERT INTO rooms ( room, user) VALUES (?,?)";
-        const result = await db.query(sql, [user, room])
+        const result = await db.query(sql, [userName, room])
         console.log("user added to room")
         return result.rows
     } catch (error) {

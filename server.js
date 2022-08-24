@@ -36,13 +36,13 @@ io.on("connection", (socket) => {
         }
     })
 
-    socket.on("join", async ({ user, room }) => {
+    socket.on("join", async ({ userName, room }) => {
         console.log(userName)
         console.log(room)
-        const user = { id: socket.id, user, room }
+        const user = { id: socket.id, userName, room }
         socket.user = user
         try {
-            const roomName = await joinRoom(room, user)
+            const roomName = await joinRoom(room, userName)
 
             const messages = await getMessages(room)
             if (roomName) {
@@ -56,10 +56,10 @@ io.on("connection", (socket) => {
     })
 
     socket.on("send_message", async (messageData) => {
-        const { room, message, user, date } = messageData
+        const { room, message, userName, date } = messageData
         console.log(room, message)
         try {
-            const sendMessages = await insertMessage(room, message, user, date)
+            const sendMessages = await insertMessage(room, message, userName, date)
             if (sendMessages) {
 
                 console.log(messageData)
