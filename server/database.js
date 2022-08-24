@@ -5,26 +5,28 @@ const db = new Client({
 
     },
     connectionString:
-        process.env, DATABASE_URL
+        "postgres://nidmjxwlshfuwg:c859b14132e01fa8bdf53fccb6e431b32567f3099645347e00a46d7ea0b162dd@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/dbd9p1ktkmkes8"
 });
 db.connect();
 
-const roomTable = `CREATE TABLE IF NOT EXISTS Rooms(
-    Room_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    RoomName VARCHART(100) NOT NULL,
-    Username VARCHAR(100) NOT NULL
+const roomTable = `CREATE TABLE IF NOT EXISTS rooms(
+    id SERIAL PRIMARY KEY,
+    room TEXT UNIQUE,
+    user TEXT NOT NULL
 
 );`;
 
-const messagesTable = `CREATE TABLE IF NOT EXISTS Messages(
-    Room_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    room VARCHART(100) NOT NULL,
-    userName VARCHART(100) NOT NULL,
-    message VARCHAR(100) NOT NULL,
-    time TIME
+const messageTable = `CREATE TABLE IF NOT EXISTS messages(
+    room_id TEXT PRIMARY KEY,
+    room TEXT NOT NULL,
+    user TEXT NOT NULL,
+    message TEXT NOT NULL,
+    date INTEGER,
+    CONSTRAINT fk_room_id FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE
+
 );`;
 
-db.run(roomTable, err => {
+db.query(roomTable, err => {
 
     if (err) {
         console.error(err.message)
@@ -37,7 +39,7 @@ db.run(roomTable, err => {
     }
 })
 
-db.run(messagesTable, err => {
+db.query(messageTable, err => {
 
     if (err) {
         console.error(err.message)

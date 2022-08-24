@@ -2,80 +2,54 @@
 const db = require("./database")
 
 
-function insertMessage(room, message, userName, time) {
+async function insertMessage(room, message, user, date) {
+    try {
+        const sql = "INSERT INTO messages (room, user, message, date ) VALUES (?,?,?,?)";
+        const result = await db.query(sql, [room, user, message, date])
+        console.log("message added")
+        return result.rows
+    } catch (error) {
+        console.log(error.message)
+        console.log("not working")
+    }
 
-    return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO Messages (room,userName,  message, time )VALUES(?,?,?,?);`;
-        db.run(sql, [room, userName, message, time], (error) => {
-            if (error) {
-                console.log(error.message)
-                console.log("notworking")
-                reject(error)
-            } else {
-                const message = "message added to room"
-                console.log(room, message, "new")
-                resolve(message)
-            }
-
-        })
-
-    })
 }
 
-function joinRoom(userName, roomName) {
-    return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO Rooms ( RoomName, Username)VALUES (?,?);`;
-        db.run(sql, [userName, roomName], (error) => {
-            if (error) {
-                console.log(error.message)
-                console.log("notworking")
-                reject(error)
-            } else {
-                const message = "user added to room"
-                resolve(message)
-            }
 
-        })
-    })
+async function joinRoom(user, room) {
+    try {
+        const sql = "INSERT INTO rooms ( room, user) VALUES (?,?)";
+        const result = await db.query(sql, [user, room])
+        console.log("user added to room")
+        return result.rows
+    } catch (error) {
+        console.log(error.message)
+        console.log("not working")
+    }
 }
 
-function deleteRoom(room) {
-    return new Promise((resolve, reject) => {
-        const sql = `DELETE FROM Messages WHERE room = (?)`;
-        db.run(sql, [room], (error) => {
-            if (error) {
-                console.log(error.message)
-                console.log("notworking")
-                reject(error)
-            } else {
-                console.log(room)
-                const message = "room and messages deleted"
-                resolve(message)
-            }
-
-        })
-    })
+async function deleteRoom(room) {
+    try {
+        const sql = "DELETE FROM messages WHERE room = (?);"
+        const result = await db.query(sql, [room])
+        console.log("room and messages deleted")
+        return result.rows
+    } catch (error) {
+        console.log(error.message)
+        console.log("notworking")
+    }
 }
 
-function getMessages(room) {
-    return new Promise((resolve, reject) => {
-        console.log(room, "hh")
-        const sql = `SELECT * FROM Messages WHERE room = (?);`;
-        db.all(sql, [room], (error, result) => {
-            console.log(result, error)
-            if (error) {
-                console.log(error.message)
-                console.log("notworking")
-                reject(error)
-            } else {
-                console.log(room)
-                console.log("messages were retrived")
-                console.log(result)
-                resolve(result)
-            }
-
-        })
-    })
+async function getMessages(room) {
+    try {
+        const sql = "SELECT * FROM Messages WHERE room = (?)";
+        const result = await db.query(sql, [room])
+        console.log("messages were retrived")
+        return result.rows
+    } catch (error) {
+        console.log(error.message)
+        console.log("notworking")
+    }
 }
 
 module.exports = { joinRoom, insertMessage, deleteRoom, getMessages }
