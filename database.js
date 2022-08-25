@@ -2,27 +2,29 @@ const { Client } = require("pg")
 
 const db = new Client({
     ssl: {
-
+        rejectUnauthorized: false
     },
     connectionString:
         "postgres://nidmjxwlshfuwg:c859b14132e01fa8bdf53fccb6e431b32567f3099645347e00a46d7ea0b162dd@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/dbd9p1ktkmkes8"
 });
+
+
 db.connect();
 
-const roomTable = `CREATE TABLE IF NOT EXISTS rooms(
+const messageTable = `CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
-    room TEXT UNIQUE,
-    user TEXT NOT NULL
-    CONSTRAINT fk_room_name FOREIGN KEY(room) REFERENCES messages(room) ON DELETE
+    room TEXT,
+    username TEXT  ,
+    message TEXT NOT NULL,
+    date TIMESTAMP
 
 );`;
 
-const messageTable = `CREATE TABLE IF NOT EXISTS messages(
-    id SERIAL PRIMARY KEY,
-    room TEXT NOT NULL,
-    user TEXT NOT NULL,
-    message TEXT NOT NULL,
-    date INTEGER,
+
+const roomTable = `CREATE TABLE IF NOT EXISTS rooms (
+    id INT PRIMARY KEY,
+    username TEXT,
+    room TEXT
 
 );`;
 
