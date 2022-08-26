@@ -42,7 +42,7 @@ async function deleteRoom(room) {
 
 async function getMessages(room) {
     try {
-        const sql = "SELECT * FROM Messages WHERE room = (?)";
+        const sql = "SELECT * FROM messages WHERE room = (?)";
         const result = await db.query(sql, [room])
         console.log("messages were retrived")
         return result.rows
