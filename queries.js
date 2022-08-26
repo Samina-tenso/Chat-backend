@@ -30,7 +30,7 @@ async function joinRoom(userName, room) {
 
 async function deleteRoom(room) {
     try {
-        const sql = "DELETE FROM messages WHERE room = (?);"
+        const sql = "DELETE FROM messages WHERE room = ($1);"
         const result = await db.query(sql, [room])
         console.log("room and messages deleted")
         return result.rows
@@ -42,7 +42,7 @@ async function deleteRoom(room) {
 
 async function getMessages(room) {
     try {
-        const sql = "SELECT * FROM messages WHERE room = (?);"
+        const sql = "SELECT * FROM messages WHERE room = ($1);"
         const result = await db.query(sql, [room])
         console.log("messages were retrived")
         return result.rows
