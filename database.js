@@ -14,7 +14,7 @@ db.connect();
 const messageTable = `CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     room TEXT,
-    username TEXT  ,
+    username TEXT,
     message TEXT NOT NULL,
     date TIMESTAMP
 
