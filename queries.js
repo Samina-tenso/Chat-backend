@@ -4,7 +4,7 @@ const db = require("./database")
 
 async function insertMessage(room, message, userName, date) {
     try {
-        const sql = "INSERT INTO messages (room, username, message, date ) VALUES (?,?,?,?)";
+        const sql = "INSERT INTO messages (room, username, message, date ) VALUES ($1, $2, $3, $4)";
         const result = await db.query(sql, [room, userName, message, date])
         console.log("message added")
         return result.rows
@@ -18,7 +18,7 @@ async function insertMessage(room, message, userName, date) {
 
 async function joinRoom(userName, room) {
     try {
-        const sql = "INSERT INTO rooms ( room, username) VALUES (?,?)";
+        const sql = "INSERT INTO rooms ( room, username) VALUES ($1, $2)";
         const result = await db.query(sql, [userName, room])
         console.log("user added to room")
         return result.rows
