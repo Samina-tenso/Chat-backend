@@ -22,7 +22,7 @@ const messageTable = `CREATE TABLE IF NOT EXISTS messages (
 
 
 const roomTable = `CREATE TABLE IF NOT EXISTS rooms (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     username TEXT,
     room TEXT
 
